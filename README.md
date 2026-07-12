@@ -3,3 +3,5 @@
 Jenkins automation for Unity, Blender, weather data, and web scraping.
 
 Webhook test: GitHub push triggers Jenkins through ngrok.
+
+Webhook retry: tunnel is active.
