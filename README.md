@@ -7,3 +7,5 @@ Webhook test: GitHub push triggers Jenkins through ngrok.
 Webhook retry: tunnel is active.
 
 Webhook final verification: Jenkins project URL configured.
+
+Webhook automatic build verification: baseline build completed.
