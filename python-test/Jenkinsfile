@@ -1,0 +1,80 @@
+pipeline {
+    agent any
+
+    options {
+        timestamps()
+    }
+
+    environment {
+        VENV_DIR = '.venv-jenkins'
+        MPLCONFIGDIR = "${WORKSPACE}/.matplotlib"
+        PIP_DISABLE_PIP_VERSION_CHECK = '1'
+    }
+
+    stages {
+        stage('作業フォルダの確認') {
+            steps {
+                script {
+                    env.PROJECT_DIR = fileExists('requirements.txt') ? '.' : 'python-test'
+                }
+                echo "実行フォルダ: ${env.PROJECT_DIR}"
+            }
+        }
+
+        stage('Python環境の準備') {
+            steps {
+                dir(env.PROJECT_DIR) {
+                    sh '''#!/bin/bash
+                        set -eu
+                        mkdir -p "$MPLCONFIGDIR"
+                        if [ ! -x "$VENV_DIR/bin/python" ]; then
+                            python3 -m venv "$VENV_DIR"
+                        fi
+                        "$VENV_DIR/bin/python" -m pip install --upgrade pip
+                        "$VENV_DIR/bin/python" -m pip install -r requirements.txt
+                    '''
+                }
+            }
+        }
+
+        stage('01.py: PNGグラフ作成') {
+            steps {
+                dir(env.PROJECT_DIR) {
+                    sh '"$VENV_DIR/bin/python" 01.py'
+                }
+            }
+        }
+
+        stage('02.py: HTMLグラフ作成') {
+            steps {
+                dir(env.PROJECT_DIR) {
+                    sh '"$VENV_DIR/bin/python" 02.py'
+                }
+            }
+        }
+
+        stage('Webスクレイピング') {
+            steps {
+                dir(env.PROJECT_DIR) {
+                    sh '"$VENV_DIR/bin/python" web_scraping.py'
+                }
+            }
+        }
+
+        stage('成果物の確認') {
+            steps {
+                dir(env.PROJECT_DIR) {
+                    sh 'ls -lh temperature.png temperature.html last_script_03.txt'
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            archiveArtifacts artifacts: "${env.PROJECT_DIR}/temperature.png,${env.PROJECT_DIR}/temperature.html,${env.PROJECT_DIR}/last_script_03.txt",
+                             allowEmptyArchive: true,
+                             fingerprint: true
+        }
+    }
+}
