@@ -1,0 +1,36 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<project>
+  <description>SampleScene を macOS 向けにビルドし、資料の規則で時刻付きアプリ名へ変更するジョブ。</description>
+  <keepDependencies>false</keepDependencies>
+  <properties/>
+  <scm class="hudson.scm.NullSCM"/>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers/>
+  <concurrentBuild>false</concurrentBuild>
+  <builders>
+    <hudson.tasks.Shell>
+      <command>#!/usr/bin/env bash
+set -eu
+
+UNITY=&quot;/Applications/Unity/Hub/Editor/6000.5.1f1/Unity.app/Contents/MacOS/Unity&quot;
+PROJECT=&quot;/Users/hw24a078/My project&quot;
+APP=&quot;$PROJECT/Builds/Mac/MyGame.app&quot;
+TIMESTAMP=$(date +%Y%m%d_%H%M)
+
+&quot;$UNITY&quot; -batchmode -quit \
+  -projectPath &quot;$PROJECT&quot; \
+  -executeMethod CIBuilder.BuildMac \
+  -logFile &quot;$PROJECT/unity_build.log&quot;
+
+test -d &quot;$APP&quot;
+mv &quot;$APP&quot; &quot;$PROJECT/Builds/Mac/MyGame_${TIMESTAMP}.app&quot;
+ls -lh &quot;$PROJECT&quot;/Builds/Mac</command>
+      <configuredLocalRules/>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers/>
+  <buildWrappers/>
+</project>

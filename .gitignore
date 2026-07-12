@@ -1,6 +1,8 @@
 .DS_Store
 tmp/
 python-test/venv/
+python-test/w-venv/
+python-test/venv_before_*/
 python-test/.venv-submit/
 python-test/.venv-jenkins/
 python-test/.matplotlib/
