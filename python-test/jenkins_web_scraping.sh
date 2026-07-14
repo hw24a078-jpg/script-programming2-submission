@@ -2,16 +2,13 @@
 set -e
 
 WORK_DIR="/Users/hw24a078/Desktop/スクリプトプログラミング演習2/python-test"
+VENV="/Users/hw24a078/.jenkins/venvs/web-scraping"
 cd "$WORK_DIR"
 
-if [ ! -d "w-venv" ]; then
-  python3 -m venv w-venv
-  source w-venv/bin/activate
-  pip install requests urllib3
-else
-  source w-venv/bin/activate
+if [ ! -d "$VENV" ]; then
+  /usr/bin/python3 -m venv "$VENV"
+  "$VENV/bin/python3" -m pip install requests urllib3
 fi
 
-python3 web_scraping.py
+"$VENV/bin/python3" web_scraping.py
 ls -lh "$WORK_DIR"/last_script_03.txt
-deactivate

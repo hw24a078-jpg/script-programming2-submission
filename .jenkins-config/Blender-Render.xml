@@ -15,7 +15,7 @@
       <command>#!/usr/bin/env bash
 set -eu
 cd &quot;/Users/hw24a078/Desktop/スクリプトプログラミング演習2/blender-project&quot;
-./jenkins_blender_render.sh</command>
+bash ./jenkins_blender_render.sh</command>
       <configuredLocalRules/>
     </hudson.tasks.Shell>
   </builders>
