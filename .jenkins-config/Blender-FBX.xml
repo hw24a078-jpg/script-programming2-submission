@@ -14,8 +14,7 @@
     <hudson.tasks.Shell>
       <command>#!/usr/bin/env bash
 set -eu
-cd &quot;/Users/hw24a078/Desktop/スクリプトプログラミング演習2/blender-project&quot;
-bash ./jenkins_blender_fbx.sh</command>
+bash "$WORKSPACE/blender-project/jenkins_blender_fbx.sh"</command>
       <configuredLocalRules/>
     </hudson.tasks.Shell>
   </builders>

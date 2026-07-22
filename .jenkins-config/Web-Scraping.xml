@@ -14,8 +14,7 @@
     <hudson.tasks.Shell>
       <command>#!/usr/bin/env bash
 set -eu
-cd &quot;/Users/hw24a078/Desktop/スクリプトプログラミング演習2/python-test&quot;
-bash ./jenkins_web_scraping.sh</command>
+bash "$WORKSPACE/python-test/jenkins_web_scraping.sh"</command>
       <configuredLocalRules/>
     </hudson.tasks.Shell>
   </builders>
